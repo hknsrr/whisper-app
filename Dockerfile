@@ -2,11 +2,12 @@
 FROM node:18-bullseye
 
 # 2️⃣ Sistem bağımlılıklarını yükle (Whisper için gerekli)
+# ffmpeg + cmake yükle
 RUN apt-get update && apt-get install -y \
     ffmpeg \
+    cmake \
     build-essential \
-    python3 \
-    && rm -rf /var/lib/apt/lists/*
+    python3
 
 # 3️⃣ Çalışma dizini oluştur
 WORKDIR /usr/src/app
@@ -28,3 +29,4 @@ EXPOSE 3000
 
 # 9️⃣ Uygulamayı başlat
 CMD ["npm", "start"]
+
