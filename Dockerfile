@@ -1,29 +1,23 @@
-# 1️⃣ Node tabanlı imaj
 FROM node:20
 
-# 2️⃣ Çalışma dizinini belirle
 WORKDIR /app
 
-# 3️⃣ Paketleri yükle (package.json ve package-lock.json)
 COPY package*.json ./
 
 RUN npm install
 
-# 4️⃣ whisper-node kaynaklarını doğru yere taşı
-# whisper-node/lib/whisper.cpp dizininde olduğundan yeni dizin yapısı oluşturuyoruz
-RUN mkdir -p node_modules/whisper-node/whisper && \
-    cp -r node_modules/whisper-node/lib/whisper.cpp/* node_modules/whisper-node/whisper/
+# whisper-node derleme araçları
+RUN apt-get update && apt-get install -y build-essential cmake ffmpeg
 
-# 5️⃣ whisper.cpp derlemesi
-RUN apt-get update && apt-get install -y build-essential cmake ffmpeg && \
-    cd node_modules/whisper-node/whisper && \
-    make
+# whisper.cpp dosyalarını dist klasörünün yanına kopyala
+RUN mkdir -p node_modules/whisper-node/dist/whisper && \
+    cp -r node_modules/whisper-node/lib/whisper.cpp/* node_modules/whisper-node/dist/whisper/
 
-# 6️⃣ Uygulama kaynaklarını kopyala
+# whisper derlemesi
+RUN cd node_modules/whisper-node/dist/whisper && make
+
 COPY . .
 
-# 7️⃣ Portu aç
 EXPOSE 3000
 
-# 8️⃣ Başlatma komutu
 CMD ["npm", "start"]
