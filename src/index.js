@@ -53,7 +53,7 @@ app.post("/transcribe", upload.single("audio"), async (req, res) => {
 });
 
 // Render ortamı için port ayarı
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`✅ Whisper server running on port ${PORT}`);
 });
