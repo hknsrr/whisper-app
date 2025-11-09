@@ -1,0 +1,5 @@
+flask
+ffmpeg-python
+torch
+torchaudio
+flask-cors

@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  whisper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: whisper-ui-dev
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_DEBUG=1
+      - WHISPER_MODEL=base
+    volumes:
+      - ./app.py:/app/app.py
+      - ./static:/app/static
+    restart: unless-stopped
